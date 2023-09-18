@@ -2,17 +2,23 @@ package com.catalisa.cidadeseguraapi.endereco;
 
 import com.catalisa.cidadeseguraapi.bairro.BairroInexistenteException;
 import com.catalisa.cidadeseguraapi.bairro.BairroRepository;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class EnderecoRequest {
     @NotBlank
+    @Schema(example = "Avenida Nossa Senhora dos Navegantes")
     private String nomeRua;
     @NotNull
+    @Schema(example = "1234")
     private String numero;
     @NotBlank
+    @Schema(example = "Próximo praça do Papa")
     private String pontoReferencia;
     @NotNull
+    @Schema(example = "1")
     private Long idBairro;
     public EnderecoRequest(){}
     public EnderecoRequest(String nomeRua, String numero, String pontoReferencia, Long id_bairro) {

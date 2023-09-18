@@ -3,6 +3,7 @@ package com.catalisa.cidadeseguraapi.cidade;
 import com.catalisa.cidadeseguraapi.estado.EstadoInexistenteException;
 import com.catalisa.cidadeseguraapi.estado.EstadoRepository;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -10,8 +11,10 @@ import java.util.Objects;
 
 public class CidadeRequest {
     @NotBlank
+    @Schema(example = "Vitória")
     private String nome;
     @NotNull
+    @Schema(example = "1")
     private Long idEstado;
 
     public void setNome(String nome) {

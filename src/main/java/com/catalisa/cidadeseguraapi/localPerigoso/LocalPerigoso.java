@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -20,15 +21,14 @@ public class LocalPerigoso {
     private Endereco endereco;
     @Enumerated(EnumType.STRING)
     private CategoriaPericulosidade categoriaPericulosidade;
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-    private LocalDateTime horario;
+    private LocalTime horario;
     private String descricao;
     @ManyToOne
     @JoinColumn(name = "id_bairro")
     private Bairro bairro;
 
     public LocalPerigoso(Endereco endereco, CategoriaPericulosidade categoriaPericulosidade,
-                         LocalDateTime horario, String descricao, Bairro bairro) {
+                         LocalTime horario, String descricao, Bairro bairro) {
         this.endereco = endereco;
         this.categoriaPericulosidade = categoriaPericulosidade;
         this.horario = horario;
@@ -51,7 +51,7 @@ public class LocalPerigoso {
         return categoriaPericulosidade;
     }
 
-    public LocalDateTime getHorario() {
+    public LocalTime getHorario() {
         return horario;
     }
 
@@ -75,7 +75,7 @@ public class LocalPerigoso {
         this.categoriaPericulosidade = categoriaPericulosidade;
     }
 
-    public void setHorario(LocalDateTime horario) {
+    public void setHorario(LocalTime horario) {
         this.horario = horario;
     }
 

@@ -1,11 +1,12 @@
 package com.catalisa.cidadeseguraapi.localPerigoso;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class LocalPerigosoResponse {
     private Long id;
     private Long id_endereco;
     private CategoriaPericulosidade categoriaPericulosidade;
-    private LocalDateTime horario;
+    private LocalTime horario;
     private String descricao;
     private Long id_bairro;
 
@@ -33,11 +34,11 @@ public class LocalPerigosoResponse {
         this.categoriaPericulosidade = categoriaPericulosidade;
     }
 
-    public LocalDateTime getHorario() {
+    public LocalTime getHorario() {
         return horario;
     }
 
-    public void setHorario(LocalDateTime horario) {
+    public void setHorario(LocalTime horario) {
         this.horario = horario;
     }
 
