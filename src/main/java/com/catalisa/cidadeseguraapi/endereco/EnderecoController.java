@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,6 +23,7 @@ public class EnderecoController {
     Logger logger = LoggerFactory.getLogger(CidadeController.class);
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> listar() {
 
         var enderecos = enderecoRepository.findAll();
@@ -38,6 +40,7 @@ public class EnderecoController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> consultar(@PathVariable Long id) {
 
         Endereco endereco = getEndereco(id);
@@ -54,6 +57,7 @@ public class EnderecoController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> inserir(@Valid @RequestBody EnderecoRequest request) {
 
         var endereco = request.toModel(bairroRepository);
@@ -74,6 +78,7 @@ public class EnderecoController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<?> excluir(@PathVariable Long id) {
 
         Endereco endereco = getEndereco(id);
@@ -85,6 +90,7 @@ public class EnderecoController {
 
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> alterar(@PathVariable Long id, @Valid @RequestBody EnderecoRequest request) {
         Endereco endereco = getEndereco(id);
         endereco.setNomeRua(request.getNomeRua());

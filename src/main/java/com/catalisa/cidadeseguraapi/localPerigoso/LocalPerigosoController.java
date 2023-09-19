@@ -5,6 +5,7 @@ import com.catalisa.cidadeseguraapi.endereco.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,6 +22,7 @@ public class LocalPerigosoController {
     private BairroRepository bairroRepository;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> listar() {
 
         var locais = localPerigosoRepository.findAll();
@@ -37,6 +39,7 @@ public class LocalPerigosoController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> consultar(@PathVariable Long id) {
 
         LocalPerigoso localPerigoso = getLocalPerigoso(id);
@@ -53,6 +56,7 @@ public class LocalPerigosoController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> inserir(@Valid @RequestBody LocalPerigosoRequest request) {
 
         var localPerigoso = request.toModel(enderecoRepository, bairroRepository);
@@ -71,6 +75,7 @@ public class LocalPerigosoController {
 
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<?> excluir(@PathVariable Long id) {
 
         LocalPerigoso localPerigoso = getLocalPerigoso(id);
@@ -81,6 +86,7 @@ public class LocalPerigosoController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> alterar(@PathVariable Long id, @Valid @RequestBody LocalPerigosoRequest request) {
         LocalPerigoso localPerigoso = getLocalPerigoso(id);
         localPerigoso.getEndereco().setId(request.getIdEndereco());

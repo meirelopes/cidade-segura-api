@@ -1,13 +1,12 @@
 package com.catalisa.cidadeseguraapi.cidade;
 
-import com.catalisa.cidadeseguraapi.estado.Estado;
-import com.catalisa.cidadeseguraapi.estado.EstadoInexistenteException;
 import com.catalisa.cidadeseguraapi.estado.EstadoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,6 +23,7 @@ public class CidadeController {
     Logger logger = LoggerFactory.getLogger(CidadeController.class);
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> listar() {
 
         var cidades = cidadeRepository.findAll();
@@ -40,6 +40,7 @@ public class CidadeController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> consultar(@PathVariable Long id) {
 
         Cidade cidade = getCidade(id);
@@ -56,6 +57,7 @@ public class CidadeController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> inserir(@Valid @RequestBody CidadeRequest request) {
         logger.info("TESTE");
 
@@ -77,6 +79,7 @@ public class CidadeController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<?> excluir(@PathVariable Long id){
 
         Cidade cidade = getCidade(id);
@@ -86,20 +89,8 @@ public class CidadeController {
                 .build();
     }
 
-   // @PutMapping("/{id}")
-    public ResponseEntity<?> alterar2(@PathVariable Long id, CidadeRequest request){
-        logger.info("TESTE");
-        Cidade cidade = getCidade(id);
-
-        cidade.setNome(request.getNome());
-        cidade.getEstado().setId(request.getIdEstado());
-        logger.info("Nome da cidade: {}",cidade.getNome());
-        logger.info("Nome da cidade: {}",request.getNome());
-
-        return salvar(cidade, HttpStatus.OK);
-
-    }
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> alterar(@PathVariable Long id, @Valid @RequestBody CidadeRequest request){
         Cidade cidade = getCidade(id);
         cidade.setNome(request.getNome());

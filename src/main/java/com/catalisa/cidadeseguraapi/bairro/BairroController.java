@@ -23,6 +23,7 @@ public class BairroController {
     Logger logger = LoggerFactory.getLogger(CidadeController.class);
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> listar() {
 
         var bairros = bairroRepository.findAll();
@@ -39,6 +40,7 @@ public class BairroController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> consultar(@PathVariable Long id) {
 
         Bairro bairro = getBairro(id);
@@ -55,6 +57,7 @@ public class BairroController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> inserir(@Valid @RequestBody BairroRequest request) {
 
         var bairro = request.toModel(cidadeRepository);
@@ -75,6 +78,7 @@ public class BairroController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<?> excluir(@PathVariable Long id){
 
         Bairro bairro = getBairro(id);
@@ -84,6 +88,7 @@ public class BairroController {
                 .build();
     }
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> alterar(@PathVariable Long id, @Valid @RequestBody BairroRequest request){
         Bairro bairro = getBairro(id);
         bairro.setNome(request.getNome());

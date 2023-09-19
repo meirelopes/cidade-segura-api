@@ -3,6 +3,7 @@ package com.catalisa.cidadeseguraapi.estado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ public class EstadoController {
     private EstadoRepository estadoRepository;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> listar() {
 
         var estados = estadoRepository.findAll();
@@ -30,6 +32,7 @@ public class EstadoController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> consultar(@PathVariable Long id){
 
         Estado estado = getEstado(id);
@@ -46,6 +49,7 @@ public class EstadoController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> inserir(@Valid @RequestBody EstadoRequest request){
 
         var estado = request.toModel();
@@ -65,6 +69,7 @@ public class EstadoController {
         }
     }
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<?> excluir(@PathVariable Long id){
 
         Estado estado = getEstado(id);
@@ -75,6 +80,7 @@ public class EstadoController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> alterar(@PathVariable Long id, @Valid @RequestBody EstadoRequest request){
 
         Estado estado = getEstado(id);

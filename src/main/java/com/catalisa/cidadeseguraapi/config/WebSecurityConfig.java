@@ -19,13 +19,13 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.httpBasic().and().authorizeHttpRequests()
                 .antMatchers("/login/**").permitAll() // --> caminho público aqui
+                .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/swagger-resources/**", "/swagger-resources", "/v3/api-docs/**", "/proxy/**").permitAll()
                 .anyRequest().authenticated().and().csrf().disable();
+
         return http.build();
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }
